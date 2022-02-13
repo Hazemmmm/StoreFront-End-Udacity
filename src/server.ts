@@ -1,20 +1,19 @@
-import express, { Request, Response } from 'express'
-import bodyParser from 'body-parser'
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import config from "./config";
 
-const app: express.Application = express()
-const address: string = "0.0.0.0:3000"
+const port = config.port || 3000;
 
-app.use(bodyParser.json())
+const app: express.Application = express();
 
-app.get('/', (req: Request, res: Response) : void => {
-    res.send('Hello World!')
-})
+app.use(bodyParser.json());
 
+app.get("/", (_req: Request, res: Response): void => {
+  res.send("Hello World!");
+});
 
-
-app.listen(3000, (): void => {
-    console.log(`starting app on: ${address}`)
-})
-
+app.listen(port, (): void => {
+  console.log(`starting app on: ${port}`);
+});
 
 export default app;
