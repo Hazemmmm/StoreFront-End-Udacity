@@ -8,7 +8,9 @@
     "start": "nodemon ./src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
     "test": "jasmine-ts",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "migration:up": "db-migrate up",
+    "migration:down": "db-migrate down"
   },
   "author": "Udacity",
   "license": "ISC",
@@ -29,8 +31,6 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/pg": "^7.14.11",
     "@types/supertest": "^2.0.11",
-    "db-migrate": "^0.11.13",
-    "db-migrate-pg": "^1.2.2",
     "jasmine": "^3.99.0",
     "jasmine-spec-reporter": "^6.0.0",
     "jasmine-ts": "^0.3.3",

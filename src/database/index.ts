@@ -7,9 +7,8 @@ const pool = new Pool({
   user: config.user,
   password: config.password,
   port: Number(config.dbPort),
-  max: 4,
 });
 
-pool.on("error", (err: Error) => console.error(err));
+pool.on("error", (err: Error) => console.error(err.message));
 
 export default pool;
