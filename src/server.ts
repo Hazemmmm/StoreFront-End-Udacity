@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import config from "./config";
 import db from "./database";
 import routes from "./routes";
+import errorMiddleWare from "../src/middlewares/errorMiddleWare";
 
 const port = config.port || 3000;
 
@@ -33,4 +34,5 @@ app.listen(port, (): void => {
   console.log(`starting app on: ${port}`);
 });
 
+app.use(errorMiddleWare);
 export default app;
