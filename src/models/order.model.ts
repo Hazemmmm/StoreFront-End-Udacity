@@ -60,20 +60,20 @@ class OrderModel {
   async getOrderById(id: number): Promise<Order> {
     try {
       const connection = await db.connect();
-      const sql = "SELECT * FROM orders WHERE id=$1 RETURNING *";
+      const sql = "SELECT * FROM orders WHERE id=($1)";
       const result = await connection.query(sql, [id]);
       connection.release();
       return result.rows[0];
     } catch (error: any) {
       throw new Error(`can't get order id: ${id}`);
     }
-    }
-    
+  }
+
   //getOrderByUserId
   async getOrderByUserId(id: number): Promise<Order> {
     try {
       const connection = await db.connect();
-      const sql = "SELECT * FROM orders WHERE user_id=$1 RETURNING *";
+      const sql = "SELECT * FROM orders WHERE user_id=($1)";
       const result = await connection.query(sql, [id]);
       connection.release();
       return result.rows[0];
