@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import config from "./config";
 import db from "./database";
+import routes from "./routes";
 
 const port = config.port || 3000;
 
@@ -25,6 +26,9 @@ db.connect().then((client) => {
       console.log(err.stack);
     });
 });
+
+app.use("/api", routes);
+
 app.listen(port, (): void => {
   console.log(`starting app on: ${port}`);
 });

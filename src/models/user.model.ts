@@ -1,6 +1,5 @@
 import User from "../types/user.types";
 import db from "../database";
-
 class UserModel {
   //get all
   async index(): Promise<User[]> {
