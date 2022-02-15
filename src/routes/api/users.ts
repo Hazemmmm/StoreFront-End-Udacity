@@ -1,5 +1,8 @@
 import express from "express";
 import * as controllers from "../../controllers/user.controller";
+
+import authoizationMiddleWare from "../../middlewares/authenticationMiddleWare";
+
 const userRouter = express.Router();
 
 userRouter.get("/", controllers.getAll);

@@ -8,7 +8,7 @@ class UserModel {
   async index(): Promise<User[]> {
     try {
       const connection = await db.connect();
-      const sql = "SELECT * FROM users";
+      const sql = "SELECT first_name, last_name, email FROM users";
       const result = await connection.query(sql);
       connection.release();
       return result.rows;
