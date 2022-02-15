@@ -7,10 +7,10 @@ class UserModel {
   //get all
   async index(): Promise<User[]> {
     try {
-      const connection = db.connect();
+      const connection = await db.connect();
       const sql = "SELECT * FROM users";
-      const result = await (await connection).query(sql);
-      (await connection).release();
+      const result = await connection.query(sql);
+      connection.release();
       return result.rows;
     } catch (err: any) {
       throw new Error(`Can't get users from DB${err.message}`);
@@ -19,10 +19,10 @@ class UserModel {
   //get by id1
   async getById(id: number): Promise<User[]> {
     try {
-      const connection = db.connect();
+      const connection = await db.connect();
       const sql = "SELECT * FROM users WHERE id=($1)";
-      const result = await (await connection).query(sql, [id]);
-      (await connection).release();
+      const result = await connection.query(sql, [id]);
+      connection.release();
       return result.rows[0];
     } catch (err: any) {
       throw new Error(`Can't get user ${id}, ${err.message}`);
@@ -52,19 +52,17 @@ class UserModel {
   //update
   async updateUser(user: User): Promise<User> {
     try {
-      const connection = db.connect();
+      const connection = await db.connect();
       const sql =
         "UPDATE users SET first_name=$1, last_name=$2, password=$3, email=$4 WHERE id=$5 RETURNING *";
-      const result = await (
-        await connection
-      ).query(sql, [
+      const result = await connection.query(sql, [
         user.first_name,
         user.last_name,
         hashPassword(user.password),
         user.email,
         user.id,
       ]);
-      (await connection).release();
+      connection.release();
       return result.rows[0];
     } catch (error: any) {
       throw new Error(
@@ -77,10 +75,10 @@ class UserModel {
   //delete
   async deleteUser(id: number): Promise<User> {
     try {
-      const connection = db.connect();
+      const connection = await db.connect();
       const sql = "DELETE FROM users WHERE id=($1) RETURNING *";
-      const result = await (await connection).query(sql, [id]);
-      (await connection).release();
+      const result = await connection.query(sql, [id]);
+      connection.release();
       return result.rows[0];
     } catch (error: any) {
       throw new Error(
@@ -89,6 +87,37 @@ class UserModel {
     }
   }
   //authenticate
+
+  async authenticate(email: string, password: string): Promise<User | null> {
+    console.log({ email });
+    console.log({ password });
+
+    try {
+      const connection = await db.connect();
+      const sql = "SELECT password FROM users WHERE email=($1)";
+      const result = await connection.query(sql, [email]);
+
+      if (result.rows.length) {
+        const { password: hashPassword } = result.rows[0];
+        const passwordIsValid = bcrypt.compareSync(
+          `${password}${config.pepper}`,
+          hashPassword
+        );
+        if (passwordIsValid) {
+          const sql =
+            "SELECT id, email, first_name, last_name FROM users WHERE email=($1)";
+          const userInformation = await (await connection).query(sql, [email]);
+          return userInformation.rows[0];
+        }
+      }
+      connection.release();
+      return null;
+    } catch (error: any) {
+      throw new Error(
+        `Couldn't be loggined, try again, EROOR:${error.message}`
+      );
+    }
+  }
 }
 
 const hashPassword = (password: string) => {

@@ -8,4 +8,5 @@ userRouter.post("/", controllers.createUser);
 userRouter.delete("/:id", controllers.deleteUser);
 userRouter.patch("/:id", controllers.updateUser);
 
+userRouter.post("/authenticate", controllers.authenticate);
 export default userRouter;

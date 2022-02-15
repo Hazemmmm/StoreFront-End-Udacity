@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import UserModel from "../models/user.model";
 import { Sucess } from "../Enum/success";
-
+import jwt from "jsonwebtoken";
+import config from "../config";
 const userModel = new UserModel();
 
 export const getAll = async (
@@ -84,6 +85,33 @@ export const updateUser = async (
       message: Sucess.UpdateUser,
       data: { ...user },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { password, email } = req.body;
+    const user = await userModel.authenticate(email, password);
+    console.log(user);
+    const token = jwt.sign({ user }, config.token as unknown as string);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "The username and password do not match, please try again.",
+      });
+    } else {
+      return res.json({
+        status: "success",
+        message: "User is authenticated",
+        data: { ...user, token },
+      });
+    }
   } catch (error) {
     next(error);
   }
