@@ -3,13 +3,14 @@ import bodyParser from "body-parser";
 import config from "./config";
 import db from "./database";
 import routes from "./routes";
-import errorMiddleWare from "../src/middlewares/errorMiddleWare";
-
+import errorMiddleWare from "./middlewares/errorMiddleWare";
+import cors from "cors";
 const port = config.port || 3000;
 
 const app: express.Application = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get("/", (_req: Request, res: Response): void => {
   res.send("Hello World!");
