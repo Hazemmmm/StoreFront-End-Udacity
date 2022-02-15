@@ -31,8 +31,6 @@ export const getOrderById = async (
       req.params.id as unknown as number
     );
     if (oder !== undefined) {
-      console.log(oder);
-
       res.json({
         status: SucessOrder.status,
         message: SucessOrder.OneOrder,
