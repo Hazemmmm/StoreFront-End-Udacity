@@ -1,5 +1,8 @@
 import User from "../types/user.types";
 import db from "../database";
+import bcrypt from "bcrypt";
+import config from "../config";
+
 class UserModel {
   //get all
   async index(): Promise<User[]> {
@@ -37,7 +40,7 @@ class UserModel {
       ).query(sql, [
         user.first_name,
         user.last_name,
-        user.password,
+        hashPassword(user.password),
         user.email,
       ]);
       (await connection).release();
@@ -57,7 +60,7 @@ class UserModel {
       ).query(sql, [
         user.first_name,
         user.last_name,
-        user.password,
+        hashPassword(user.password),
         user.email,
         user.id,
       ]);
@@ -88,4 +91,8 @@ class UserModel {
   //authenticate
 }
 
+const hashPassword = (password: string) => {
+  const salt = parseInt(config.salt as unknown as string, 10);
+  return bcrypt.hashSync(`${password}${config.pepper}`, salt);
+};
 export default UserModel;
