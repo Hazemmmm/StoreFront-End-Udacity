@@ -37,19 +37,19 @@ First, create a `.env` file with all the required environment variables:
 
 # .env
 
-NODE_ENV=development
 PORT=3000
-
+NODE_ENV=dev
 DB_HOST=localhost
 DB_PORT=5432
-DB_DATABASE=database_dev
-DB_DATABASE_TEST=database_test
-DB_USER=databaseuser
-DB_PASS=password
+POSTGRES_DB=store_dev
+POSTGRES_DB_TEST=store_test
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
 
-BCRYPT_PASSWORD=your-secret-password
-SALT_ROUNDS=10
-TOKEN_SECRET=your-secret-token
+SALT_ROUND=10
+BCRYPRT_PASSWORD=HELLO-DARK
+
+TOKEN_SECRET=my-secret-token
 
 ```
 
