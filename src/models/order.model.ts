@@ -20,7 +20,7 @@ class OrderModel {
     try {
       const connection = await db.connect();
       const sql =
-        "UPDATE orders SET status=$1, user_id=$2 WHERE id=$3 RETURNING *";
+        "UPDATE orders SET status=($1), user_id=($2) WHERE id=($3) RETURNING *";
       const result = await connection.query(sql, [
         order.status,
         order.user_id,
