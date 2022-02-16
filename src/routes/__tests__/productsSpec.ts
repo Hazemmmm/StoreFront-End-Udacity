@@ -9,7 +9,7 @@ import User from "../../types/user.types";
 const req = supertest(app);
 const userModel = new UserModel();
 let token = "";
-xdescribe("Product Route API", () => {
+describe("Product Route API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "testUserProduct",

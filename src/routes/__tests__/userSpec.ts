@@ -8,7 +8,7 @@ const req = supertest(app);
 const userModel = new UserModel();
 let token = "";
 
-xdescribe("User Route API", () => {
+describe("User Route API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "test",

@@ -8,7 +8,7 @@ const userModel = new UserModel();
 const req = supertest(app);
 let token = "";
 
-xdescribe("Test Orderes API", () => {
+describe("Test Orderes API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "testUserOrder",

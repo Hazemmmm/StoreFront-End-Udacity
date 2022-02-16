@@ -5,11 +5,11 @@ import authoizationMiddleWare from "../../middlewares/authenticationMiddleWare";
 
 const userRouter = express.Router();
 
-userRouter.get("/", controllers.getAll);
-userRouter.get("/:id", controllers.getById);
-userRouter.post("/", controllers.createUser);
-userRouter.delete("/:id", controllers.deleteUser);
-userRouter.patch("/:id", controllers.updateUser);
+userRouter.get("/", authoizationMiddleWare, controllers.getAll);
+userRouter.get("/:id", authoizationMiddleWare, controllers.getById);
+userRouter.post("/", authoizationMiddleWare, controllers.createUser);
+userRouter.delete("/:id", authoizationMiddleWare, controllers.deleteUser);
+userRouter.patch("/:id", authoizationMiddleWare, controllers.updateUser);
 
 userRouter.post("/authenticate", controllers.authenticate);
 export default userRouter;
