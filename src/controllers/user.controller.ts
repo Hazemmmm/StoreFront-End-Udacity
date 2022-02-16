@@ -49,7 +49,7 @@ export const getById = async (
     res.status(200).json({
       status: Sucess.status,
       message: Sucess.OneUser,
-      data: { ...user },
+      data: user,
     });
   } catch (error) {
     next(error);
@@ -98,7 +98,6 @@ export const authenticate = async (
   try {
     const { password, email } = req.body;
     const user = await userModel.authenticate(email, password);
-    console.log(user);
     const token = jwt.sign({ user }, config.token as unknown as string);
     if (!user) {
       return res.status(404).json({

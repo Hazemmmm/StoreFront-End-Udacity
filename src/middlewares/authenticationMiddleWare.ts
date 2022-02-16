@@ -27,8 +27,6 @@ const validateTokenMiddleWare = (
       const token = authHeader.split(" ")[1];
       if (token && bearer === "bearer") {
         const decode = jwt.verify(token, config.token as unknown as string);
-        console.log(decode);
-
         if (decode) {
           next();
         } else {

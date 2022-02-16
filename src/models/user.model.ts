@@ -8,7 +8,7 @@ class UserModel {
   async index(): Promise<User[]> {
     try {
       const connection = await db.connect();
-      const sql = "SELECT first_name, last_name, email FROM users";
+      const sql = "SELECT id, first_name, last_name, email FROM users";
       const result = await connection.query(sql);
       connection.release();
       return result.rows;
@@ -89,9 +89,6 @@ class UserModel {
   //authenticate
 
   async authenticate(email: string, password: string): Promise<User | null> {
-    console.log({ email });
-    console.log({ password });
-
     try {
       const connection = await db.connect();
       const sql = "SELECT password FROM users WHERE email=($1)";
