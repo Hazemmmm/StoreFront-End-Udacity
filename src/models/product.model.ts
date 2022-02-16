@@ -25,7 +25,7 @@ class ProductModel {
     try {
       const connection = await db.connect();
       const sql =
-        "UPDATE products SET name=$1, description=$2, price=$3, category=$4 WHERE id=($5)";
+        "UPDATE products SET name=($1), description=($2), price=($3), category=($4) WHERE id=($5)";
       const result = await connection.query(sql, [
         product.name,
         product.description,
