@@ -1,13 +1,17 @@
-
 import express, { Request, Response, NextFunction } from "express";
 import * as controllers from "../../controllers/order.controller";
-const orderRouter = express.Router();
+import validateTokenMiddleWare from "../../middlewares/authenticationMiddleWare";
 
-orderRouter.get("/", controllers.getAllOrders);
-orderRouter.get("/:id", controllers.getOrderById);
-orderRouter.get("/users/:id", controllers.getOrderByUserId);
-orderRouter.delete("/:id", controllers.deleteOrder);
-orderRouter.post("/", controllers.createOrder);
-orderRouter.patch("/:id", controllers.updateOrder);
+const orderRouter = express.Router();
+orderRouter.get("/", validateTokenMiddleWare, controllers.getAllOrders);
+orderRouter.get("/:id", validateTokenMiddleWare, controllers.getOrderById);
+orderRouter.get(
+  "/users/:id",
+  validateTokenMiddleWare,
+  controllers.getOrderByUserId
+);
+orderRouter.delete("/:id", validateTokenMiddleWare, controllers.deleteOrder);
+orderRouter.post("/", validateTokenMiddleWare, controllers.createOrder);
+orderRouter.patch("/:id", validateTokenMiddleWare, controllers.updateOrder);
 
 export default orderRouter;
