@@ -93,3 +93,80 @@
 - quantity of each product in the order
 - user_id
 - status of order (active or complete)
+
+## Data Schema
+
+## User Table
+
+CREATE TABLE users(
+id SERIAL PRIMARY KEY,
+first_name varchar(50) NOT NULL,
+last_name varchar(50) NOT NULL,
+password varchar(255) NOT NULL,
+email varchar(50) UNIQUE
+);
+
+# Columns User Table
+
+type User = {
+id?: number; // Optional
+first_name: string;
+last_name: string;
+password: string;
+email: string;
+};
+
+# Product table
+
+CREATE TABLE products(
+id SERIAL PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+description VARCHAR(255),
+price NUMERIC(17,2) NOT NULL,
+category VARCHAR(50) NOT NULL
+);
+
+# Columns Product Table
+
+type Product = {
+id?: number,
+name: string,
+description: string,
+price: number,
+category: string
+
+}
+
+# Order table
+
+CREATE TABLE orders(
+id serial PRIMARY KEY,
+status varchar(50) NOT NULL,
+user_id BIGINT REFERENCES users(id) NOT NULL
+);
+
+# Columns Order Table
+
+type Order = {
+id?: number; //Optional
+status: string;
+user_id: number;
+};
+
+# Product-Order table
+
+CREATE TABLE order_products(
+id SERIAL PRIMARY KEY,
+quantity INTEGER NOT NULL,
+order_id BIGINT REFERENCES orders(id) NOT NULL,
+product_id BIGINT REFERENCES products(id) NOT NULL
+);
+
+# Columns Product-Order Table
+
+type OrderProduct = {
+id?: number;
+quantity: number;
+order_id: number;
+product_id: number;
+};
