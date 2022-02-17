@@ -54,6 +54,11 @@ TOKEN_SECRET=my-secret-token
 ```
 
 Next, start the Postgres server and create DB:
+Note: Database is running on Port ==> 5432
+Use one of these commands to run
+
+- psql -h localhost -p 5432 -d store-dev -U postgres -W postgres
+or
 - psql -U postgres
 
 # Postgres shell
@@ -79,3 +84,4 @@ The application will run on <http://localhost:3000/>
 or
 - npm run test1
 ```
+

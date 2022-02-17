@@ -116,6 +116,15 @@ password: string;
 email: string;
 };
 
+                                      Table "public.users"
+   Column   |          Type          | Collation | Nullable |              Default
+------------+------------------------+-----------+----------+-----------------------------------
+ id         | integer                |           | not null | nextval('users_id_seq'::regclass)
+ first_name | character varying(50)  |           | not null | 
+ last_name  | character varying(50)  |           | not null | 
+ password   | character varying(255) |           | not null | 
+ email      | character varying(50)  |           |          |
+
 # Product table
 
 CREATE TABLE products(
@@ -137,6 +146,16 @@ category: string
 
 }
 
+                                      Table "public.products"
+   Column    |          Type          | Collation | Nullable |               Default
+-------------+------------------------+-----------+----------+--------------------------------------
+ id          | integer                |           | not null | nextval('products_id_seq'::regclass)
+ name        | character varying(50)  |           | not null |
+ description | character varying(255) |           |          |
+ price       | numeric(17,2)          |           | not null |
+ category    | character varying(50)  |           | not null |
+
+
 # Order table
 
 CREATE TABLE orders(
@@ -153,7 +172,14 @@ status: string;
 user_id: number;
 };
 
-# Product-Order table
+                                    Table "public.orders"
+ Column  |         Type          | Collation | Nullable |              Default
+---------+-----------------------+-----------+----------+------------------------------------
+ id      | integer               |           | not null | nextval('orders_id_seq'::regclass)
+ status  | character varying(50) |           | not null |
+ user_id | bigint                |           | not null |
+
+# Order-Products table
 
 CREATE TABLE order_products(
 id SERIAL PRIMARY KEY,
@@ -162,7 +188,7 @@ order_id BIGINT REFERENCES orders(id) NOT NULL,
 product_id BIGINT REFERENCES products(id) NOT NULL
 );
 
-# Columns Product-Order Table
+# Columns Order-Products Table
 
 type OrderProduct = {
 id?: number;
@@ -170,3 +196,11 @@ quantity: number;
 order_id: number;
 product_id: number;
 };
+
+                             Table "public.order_products"
+   Column   |  Type   | Collation | Nullable |                  Default
+------------+---------+-----------+----------+--------------------------------------------
+ id         | integer |           | not null | nextval('order_products_id_seq'::regclass)
+ quantity   | integer |           |          |
+ order_id   | bigint  |           | not null |
+ product_id | bigint  |           | not null |
