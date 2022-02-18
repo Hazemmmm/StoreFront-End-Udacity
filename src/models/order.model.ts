@@ -59,9 +59,6 @@ class OrderModel {
   //getById
   async getOrderById(id: number): Promise<Order> {
     try {
-      console.log(id);
-      console.log(typeof id);
-
       const connection = await db.connect();
       const sql = "SELECT * FROM orders WHERE id=($1)";
       const result = await connection.query(sql, [id]);

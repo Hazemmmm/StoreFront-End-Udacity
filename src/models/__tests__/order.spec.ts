@@ -46,6 +46,7 @@ xdescribe("Order Model Dfined", () => {
       category: "srfas",
     } as Product;
     const order = {
+      id: 1,
       status: "actives",
       user_id: 1,
     } as Order;
@@ -58,25 +59,20 @@ xdescribe("Order Model Dfined", () => {
     afterAll(async () => {
       const connection = await db.connect();
       const sql =
-        "DELETE FROM users;\n ALTER SEQUENCE users_id_seq RESTART WITH 1;\n DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1; ";
+        "DELETE FROM users;\n ALTER SEQUENCE users_id_seq RESTART WITH 1;\nDELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1;";
       await connection.query(sql);
       connection.release();
-    });
-    it("getAllOrders should return all Orders", async () => {
-      const allOrders = await orderModel.getAllOrders();
-      expect(allOrders[0].id).toBe(1);
     });
 
     it("createOrder should Create Order", async () => {
       const newOrder = await orderModel.createOrder(order);
-      expect(newOrder.id).toBe(1);
       expect(newOrder.status).toBe("active");
       expect(newOrder.user_id).toBe(1);
     });
 
-    it("deleteOrder should delete Order", async () => {
-      const deletedOrder = await orderModel.deleteOrder(1);
-      expect(deletedOrder.id).toEqual(1);
+    it("getAllOrders should return all Orders", async () => {
+      const allOrders = await orderModel.getAllOrders();
+      expect(allOrders.length).toBeGreaterThanOrEqual(1);
     });
 
     it("getOrderById should return specific order", async () => {
@@ -96,6 +92,10 @@ xdescribe("Order Model Dfined", () => {
         id: 1,
       });
       expect(updateOrder.status).toBe("inactive");
+    });
+    it("deleteOrder should delete Order", async () => {
+      const deletedOrder = await orderModel.deleteOrder(1);
+      expect(deletedOrder.id).toEqual(1);
     });
   });
 });
