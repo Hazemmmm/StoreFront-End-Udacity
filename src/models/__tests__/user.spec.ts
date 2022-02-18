@@ -91,7 +91,7 @@ describe("UserModel Functionality Logic", () => {
     const connection = await db.connect();
     const sql =
       "DELETE FROM users; \n ALTER SEQUENCE users_id_seq RESTART WITH 1;";
-    const result = await connection.query(sql);
+    await connection.query(sql);
     connection.release();
   });
 });

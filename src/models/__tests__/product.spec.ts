@@ -31,14 +31,6 @@ describe("Product Model Dfined", () => {
       category: "srfas",
     } as Product;
 
-    afterAll(async () => {
-      const connection = await db.connect();
-      const sql =
-        "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
-      const result = await connection.query(sql);
-      connection.release();
-    });
-
     it("Product createProduct should update exsiting product", async () => {
       const newProduct = await productModel.createProduct(product);
       expect(newProduct.category).toBe("srfas");
@@ -57,7 +49,7 @@ describe("Product Model Dfined", () => {
       expect(updateProduct1.id).toBe(1);
       expect(updateProduct1.name).toBe("updated-product");
       expect(upProduct.description).toBe("updated");
-      expect(upProduct.price).toBe(100.);
+      expect(upProduct.price).toBe(100);
       expect(upProduct.category).toBe("electronic");
     });
     it("Product getAllProducts should return all Products", async () => {
@@ -81,5 +73,13 @@ describe("Product Model Dfined", () => {
       expect(updateProduct.category).toBe("asd");
       expect(updateProduct.description).toBe("desc");
     });
+  });
+
+  afterAll(async () => {
+    const connection = await db.connect();
+    const sql =
+      "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
+    await connection.query(sql);
+    connection.release();
   });
 });

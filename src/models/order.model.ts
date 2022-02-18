@@ -3,7 +3,7 @@ import db from "../database";
 
 class OrderModel {
   //create
-  async createOrder(order: Order): Promise<Order[]> {
+  async createOrder(order: Order): Promise<Order> {
     try {
       const connection = await db.connect();
       const sql =
@@ -16,7 +16,7 @@ class OrderModel {
     }
   }
   //update
-  async updateOrder(order: Order): Promise<Order[]> {
+  async updateOrder(order: Order): Promise<Order> {
     try {
       const connection = await db.connect();
       const sql =
