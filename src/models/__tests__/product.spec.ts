@@ -4,7 +4,7 @@ import db from "../../database";
 
 const productModel = new ProductModel();
 
-xdescribe("Product Model Dfined", () => {
+describe("Product Model Dfined", () => {
   describe("Test Product Model Methods have defined", () => {
     it("Product createProduct has defined", () => {
       expect(productModel.createProduct).toBeDefined();
@@ -25,19 +25,32 @@ xdescribe("Product Model Dfined", () => {
 
   describe("Test Product Methods Functionality", () => {
     const product = {
+      id: 1,
       name: "product name test",
       description: "product desc test",
       price: 62.25,
       category: "srfas",
     } as Product;
 
-    it("Product createProduct should update exsiting product", async () => {
+    it("createProduct", async () => {
       const newProduct = await productModel.createProduct(product);
       expect(newProduct.category).toBe("srfas");
       expect(newProduct.name).toBe("product name test");
       expect(newProduct.description).toBe("product desc test");
     });
-    it("Product deleteProduct should update exsiting product", async () => {
+    it("Product getAllProducts should return all Products", async () => {
+      const allProducts = await productModel.getAllProducts();
+      expect(allProducts.length).toBe(1);
+    });
+
+    it("getProductsById ", async () => {
+      const getProductByID = await productModel.getProductsById(1);
+      expect(getProductByID.id).toBe(1);
+      expect(getProductByID.name).toBe("product name test");
+      expect(getProductByID.description).toBe("product desc test");
+    });
+
+    it("should update exsiting product", async () => {
       const upProduct = {
         name: "updated-product",
         description: "updated",
@@ -52,27 +65,18 @@ xdescribe("Product Model Dfined", () => {
       expect(upProduct.price).toBe(100);
       expect(upProduct.category).toBe("electronic");
     });
-    it("Product getAllProducts should return all Products", async () => {
-      const allProducts = await productModel.getAllProducts();
-      expect(allProducts.length).toBe(1);
-    });
-    it("Product getProductsById should update exsiting product", async () => {
-      const getProductByID = await productModel.getProductsById(1);
-      expect(getProductByID.id).toBe(1);
-      expect(getProductByID.name).toBe("updated-product");
-      expect(getProductByID.description).toBe("updated");
-    });
-    it("Product updateProduct should update exsiting product", async () => {
-      const updateProduct = await productModel.updateProduct({
-        category: "asd",
-        description: "desc",
-        name: "ds",
-        price: 12.44,
-        id: 1,
-      });
-      expect(updateProduct.category).toBe("asd");
-      expect(updateProduct.description).toBe("desc");
-    });
+
+    // it("Product updateProduct should update exsiting product", async () => {
+    //   const updateProduct = await productModel.updateProduct({
+    //     category: "asd",
+    //     description: "desc",
+    //     name: "ds",
+    //     price: 12.44,
+    //     id: 1,
+    //   });
+    //   expect(updateProduct.category).toBe("asd");
+    //   expect(updateProduct.description).toBe("desc");
+    // });
   });
 
   afterAll(async () => {
