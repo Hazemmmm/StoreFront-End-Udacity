@@ -15,7 +15,7 @@ const productModel = new ProductModel();
 const orderModel = new OrderModel();
 let token = "";
 
-describe("Test Order-Product EndPoints", () => {
+xdescribe("Test Order-Product EndPoints", () => {
   const productOrder = {
     quantity: 10,
     order_id: 4,
