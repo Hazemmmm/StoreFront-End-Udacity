@@ -6,9 +6,10 @@ import User from "../../types/user.types";
 
 const req = supertest(app);
 const userModel = new UserModel();
-let token = "";
+let token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJoYXplbXpvbkBnbWF3aWwuY29tIiwiZmlyc3RfbmFtZSI6ImhhemVtIiwibGFzdF9uYW1lIjoibW9oYW1lZCJ9LCJpYXQiOjE2NDUyMDY2Mjd9.8kLkITZkCEoZMabEiOCzaQA05UM78Q2AYDsiv1OBot8";
 
-xdescribe("User Route API", () => {
+describe("User Route API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "test",
@@ -62,12 +63,19 @@ xdescribe("User Route API", () => {
       expect(first_name).toBe("newU1ser1");
       expect(last_name).toBe("User121");
     });
-    it("should delete user", async () => {
+    it("should get list of users", async () => {
       const res = await req
-        .delete("/api/users/1000")
+        .get("/api/users")
         .set("Content-type", "application/json")
         .set("Authorization", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);
+    });
+    it("should get user byid", async () => {
+      const res = await req
+        .get("/api/users/1")
+        .set("Content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
+      expect(res.status).toBe(200);
     });
     it("should update user", async () => {
       const res = await req
@@ -85,16 +93,10 @@ xdescribe("User Route API", () => {
       expect(res.status).toEqual(200);
       expect(res.body.message).toEqual("User Updated!");
     });
-    it("should get user byid", async () => {
+
+    it("should delete user", async () => {
       const res = await req
-        .get("/api/users/1")
-        .set("Content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.status).toBe(200);
-    });
-    it("should get list of users", async () => {
-      const res = await req
-        .get("/api/users")
+        .delete("/api/users/1000")
         .set("Content-type", "application/json")
         .set("Authorization", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);

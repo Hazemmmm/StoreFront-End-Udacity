@@ -13,7 +13,7 @@ const orderModel = new OrderModel();
 const productModel = new ProductModel();
 const orderProductModel = new OrderProductModel();
 
-describe("Order Product Model", () => {
+xdescribe("Order Product Model", () => {
   describe("Test Methods that have defined", () => {
     it("should have create", () => {
       expect(orderProductModel.create).toBeDefined();

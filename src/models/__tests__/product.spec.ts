@@ -4,7 +4,7 @@ import db from "../../database";
 
 const productModel = new ProductModel();
 
-describe("Product Model Dfined", () => {
+xdescribe("Product Model Dfined", () => {
   describe("Test Product Model Methods have defined", () => {
     it("Product createProduct has defined", () => {
       expect(productModel.createProduct).toBeDefined();

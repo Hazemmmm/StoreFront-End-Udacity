@@ -4,6 +4,8 @@ import db from "../database";
 class OrderProductModel {
   async create(OP: OrderProduct): Promise<OrderProduct> {
     try {
+  
+
       const connection = await db.connect();
       const sql =
         "INSERT INTO order_products (quantity,order_id,product_id) VALUES ($1,$2,$3) RETURNING *";

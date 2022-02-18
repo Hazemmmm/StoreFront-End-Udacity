@@ -41,7 +41,7 @@ PORT=3000
 NODE_ENV=dev
 DB_HOST=localhost
 DB_PORT=5432
-POSTGRES_DB=store_dev
+POSTGRES_DB=store_deve
 POSTGRES_DB_TEST=store_test
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
@@ -84,4 +84,3 @@ The application will run on <http://localhost:3000/>
 or
 - npm run test1
 ```
-

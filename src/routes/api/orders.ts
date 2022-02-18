@@ -11,7 +11,7 @@ orderRouter.get(
   controllers.getOrderByUserId
 );
 orderRouter.delete("/:id", validateTokenMiddleWare, controllers.deleteOrder);
-orderRouter.post("/", validateTokenMiddleWare, controllers.createOrder);
+orderRouter.post("/", controllers.createOrder);
 orderRouter.patch("/:id", validateTokenMiddleWare, controllers.updateOrder);
 
 export default orderRouter;

@@ -15,6 +15,7 @@ const handleAuthorizeErrorMiddleWare = (next: NextFunction) => {
   error.message = "Login error";
   next(error);
 };
+
 const validateTokenMiddleWare = (
   req: Request,
   _res: Response,

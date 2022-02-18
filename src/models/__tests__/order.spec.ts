@@ -10,7 +10,7 @@ const orderModel = new OrderModel();
 const userModel = new UserModel();
 const productModel = new ProductModel();
 
-describe("Order Model Dfined", () => {
+xdescribe("Order Model Dfined", () => {
   describe("Test Order Model Methods have defined", () => {
     it("Order createOrder has defined", () => {
       expect(orderModel.createOrder).toBeDefined();

@@ -8,8 +8,9 @@ import User from "../../types/user.types";
 
 const req = supertest(app);
 const userModel = new UserModel();
-let token = "";
-xdescribe("Product Route API", () => {
+let token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJoYXplbXpvbkBnbWF3aWwuY29tIiwiZmlyc3RfbmFtZSI6ImhhemVtIiwibGFzdF9uYW1lIjoibW9oYW1lZCJ9LCJpYXQiOjE2NDUyMDY2Mjd9.8kLkITZkCEoZMabEiOCzaQA05UM78Q2AYDsiv1OBot8";
+describe("Product Route API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "testUserProduct",
@@ -24,7 +25,7 @@ xdescribe("Product Route API", () => {
   afterAll(async () => {
     const connection = await db.connect();
     const sql =
-      "DELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1";
+      "DELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1;\nDELETE FROM products;\nALTER SEQUENCE products_id_seq RESTART WITH 1";
     const result = await connection.query(sql);
     connection.release();
   });
@@ -43,11 +44,19 @@ xdescribe("Product Route API", () => {
         });
       expect(res.statusCode).toBe(200);
     });
-    it("it should delete product", async () => {
+    it("it should get all product", async () => {
       const res = await req
-        .delete("/api/products/1")
+        .get("/api/products")
         .set("content-type", "application/json")
         .set("Authorization", `Bearer ${token}`);
+      expect(res.statusCode).toBe(200);
+    });
+    it("it should getByid product", async () => {
+      const res = await req
+        .get("/api/products/3")
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
+
       expect(res.statusCode).toBe(200);
     });
     it("it should update product", async () => {
@@ -63,19 +72,12 @@ xdescribe("Product Route API", () => {
         });
       expect(res.statusCode).toBe(200);
     });
-    it("it should get all product", async () => {
-      const res = await req
-        .get("/api/products")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.statusCode).toBe(200);
-    });
-    it("it should getByid product", async () => {
-      const res = await req
-        .get("/api/products/3")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
 
+    it("it should delete product", async () => {
+      const res = await req
+        .delete("/api/products/1")
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);
     });
   });

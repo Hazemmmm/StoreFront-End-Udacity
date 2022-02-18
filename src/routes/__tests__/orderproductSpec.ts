@@ -15,11 +15,11 @@ const productModel = new ProductModel();
 const orderModel = new OrderModel();
 let token = "";
 
-xdescribe("Test Order-Product EndPoints", () => {
+describe("Test Order-Product EndPoints", () => {
   const productOrder = {
     quantity: 10,
-    order_id: 4,
-    product_id: 4,
+    order_id: 1,
+    product_id: 1,
   } as OrderProduct;
   beforeAll(async () => {
     const user = {
@@ -31,7 +31,7 @@ xdescribe("Test Order-Product EndPoints", () => {
 
     const order = {
       status: "active",
-      user_id: 194,
+      user_id: 1,
     } as Order;
 
     const product = {
@@ -49,33 +49,25 @@ xdescribe("Test Order-Product EndPoints", () => {
   afterAll(async () => {
     const connection = await db.connect();
     const sql =
-      "DELETE FROM order_products;\nALTER SEQUENCE order_products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1;\nDELETE FROM products;\nALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1";
-    const result = await connection.query(sql);
+      "DELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1;\nDELETE FROM products;\nALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1;\nDELETE FROM order_products;\nALTER SEQUENCE order_products_id_seq RESTART WITH 1;";
+    await connection.query(sql);
     connection.release();
   });
 
   describe("Test Order-Product CRUD Operations API", () => {
     it("it should create new order product", async () => {
       const res = await req
-        .post("/api/order-products/20")
+        .post("/api/order-products/1")
         .set("content-type", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
-          productOrder,
+          quantity: 150,
+          order_id: 1,
+          product_id: 1,
         });
       expect(res.statusCode).toBe(200);
     });
-    it("it should delete order", async () => {
-      const res = await req
-        .delete("/api/order-products/1/products/1")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .send({
-          orderId: 1,
-          productId: 1,
-        });
-      expect(res.statusCode).toBe(200);
-    });
+
     it("it should get list of order product", async () => {
       const res = await req
         .get("/api/order-products/1/products/1")
@@ -100,6 +92,17 @@ xdescribe("Test Order-Product EndPoints", () => {
           order_id: 14,
           product_id: 14,
           id: 1,
+        });
+      expect(res.statusCode).toBe(200);
+    });
+    it("it should delete order", async () => {
+      const res = await req
+        .delete("/api/order-products/1/products/1")
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .send({
+          orderId: 1,
+          productId: 1,
         });
       expect(res.statusCode).toBe(200);
     });

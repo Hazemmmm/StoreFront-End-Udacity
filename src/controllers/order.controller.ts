@@ -27,9 +27,8 @@ export const getOrderById = async (
   next: NextFunction
 ) => {
   try {
-    const oder = await orderModel.getOrderById(
-      req.params.id as unknown as number
-    );
+    const oder = await orderModel.getOrderById(Number(req.params.id));
+
     if (oder !== undefined) {
       res.json({
         status: SucessOrder.status,
@@ -49,10 +48,10 @@ export const getOrderByUserId = async (
   next: NextFunction
 ) => {
   try {
-      const order = await orderModel.getOrderByUserId(
+    const order = await orderModel.getOrderByUserId(
       req.params.id as unknown as number
     );
-      if (order !== undefined) {
+    if (order !== undefined) {
       res.json({
         status: SucessOrder.status,
         message: SucessOrder.OrderByUserId,

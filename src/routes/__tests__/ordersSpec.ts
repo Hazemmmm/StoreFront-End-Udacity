@@ -6,9 +6,10 @@ import User from "../../types/user.types";
 
 const userModel = new UserModel();
 const req = supertest(app);
-let token = "";
+let token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwiZW1haWwiOiJoYXplbXpvbkBnbWF3aWwuY29tIiwiZmlyc3RfbmFtZSI6ImhhemVtIiwibGFzdF9uYW1lIjoibW9oYW1lZCJ9LCJpYXQiOjE2NDUyMDY2Mjd9.8kLkITZkCEoZMabEiOCzaQA05UM78Q2AYDsiv1OBot8";
 
-xdescribe("Test Orderes API", () => {
+describe("Test Orderes API", () => {
   beforeAll(async () => {
     const user = {
       first_name: "testUserOrder",
@@ -23,7 +24,7 @@ xdescribe("Test Orderes API", () => {
   afterAll(async () => {
     const connection = await db.connect();
     const sql =
-      "DELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1";
+      "DELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1";
     const resul = await connection.query(sql);
     connection.release();
   });
@@ -35,9 +36,32 @@ xdescribe("Test Orderes API", () => {
         .set("content-type", "application/json")
         .set("Authorization", `Bearer ${token}`)
         .send({
+          id: 1,
           status: "active",
-          user_id: 5,
+          user_id: 1,
         });
+      expect(res.statusCode).toBe(200);
+    });
+    it("should get All order", async () => {
+      const res = await req
+        .get("/api/orders")
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
+      expect(res.statusCode).toBe(200);
+    });
+    it("should get order byId", async () => {
+      let id = 1;
+      const res = await req
+        .get(`/api/orders/${id}`)
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
+      expect(res.statusCode).toBe(200);
+    });
+    it("should get order for user", async () => {
+      const res = await req
+        .get("/api/orders/users/1")
+        .set("content-type", "application/json")
+        .set("Authorization", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);
     });
     it("should update order", async () => {
@@ -54,27 +78,6 @@ xdescribe("Test Orderes API", () => {
     it("should delete order", async () => {
       const res = await req
         .delete("/api/orders/1")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.statusCode).toBe(200);
-    });
-    it("should get All order", async () => {
-      const res = await req
-        .get("/api/orders")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.statusCode).toBe(200);
-    });
-    it("should get order byId", async () => {
-      const res = await req
-        .get("/api/orders/4")
-        .set("content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.statusCode).toBe(200);
-    });
-    it("should get order for user", async () => {
-      const res = await req
-        .get("/api/orders/users/4")
         .set("content-type", "application/json")
         .set("Authorization", `Bearer ${token}`);
       expect(res.statusCode).toBe(200);

@@ -31,19 +31,17 @@ class UserModel {
   //create
   async createUser(user: User): Promise<User> {
     try {
-      const connection = db.connect();
+      const connection = await db.connect();
       const sql =
         "INSERT INTO users (first_name,last_name,password,email) values ($1, $2, $3, $4) returning id,first_name,last_name,email";
 
-      const result = await (
-        await connection
-      ).query(sql, [
+      const result = await connection.query(sql, [
         user.first_name,
         user.last_name,
         hashPassword(user.password),
         user.email,
       ]);
-      (await connection).release();
+      connection.release();
       return result.rows[0];
     } catch (error: any) {
       throw new Error(`Can't create users ${error.message}`);
