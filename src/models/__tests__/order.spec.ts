@@ -56,7 +56,6 @@ describe("Order Model Dfined", () => {
     });
 
     afterAll(async () => {
-      console.log("after alll");
       const connection = await db.connect();
       const sql =
         "DELETE FROM users;\n ALTER SEQUENCE users_id_seq RESTART WITH 1;\n DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1; ";
