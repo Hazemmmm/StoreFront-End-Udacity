@@ -84,14 +84,13 @@ describe("Order Product Model", () => {
     });
     it("should update the order product", async () => {
       const updateOrderProduct = await orderProductModel.update({
-        quantity: Number(12),
-        order_id: 12,
-        product_id: 12,
         id: 1,
+        quantity: 10,
+        order_id: 1,
+        product_id: 1,
       });
-      console.log("testt", updateOrderProduct);
 
-      expect(updateOrderProduct.id).toBe(1);
+      expect(updateOrderProduct.quantity).toBe(10);
     });
 
     it("deleteProduct should delete product", async () => {
