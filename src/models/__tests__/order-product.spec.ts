@@ -13,7 +13,7 @@ const orderModel = new OrderModel();
 const productModel = new ProductModel();
 const orderProductModel = new OrderProductModel();
 
-xdescribe("Order Product Model", () => {
+describe("Order Product Model", () => {
   describe("Test Methods that have defined", () => {
     it("should have create", () => {
       expect(orderProductModel.create).toBeDefined();
@@ -34,27 +34,27 @@ xdescribe("Order Product Model", () => {
 
   describe("test model logic", () => {
     const user = {
-      first_name: "Hazem_test_5",
-      last_name: "Mohamed_test_5",
-      email: "test45@gmail.com",
-      password: "test5@142345",
+      first_name: "Hazem_test_4",
+      last_name: "Mohamed_test_4",
+      email: "test4@gmail.com",
+      password: "test1@142345",
     } as User;
     const product = {
-      name: "product name test1",
-      description: "product desc test1",
+      name: "product name test",
+      description: "product desc test",
       price: 62.25,
-      category: "test",
+      category: "srfas",
     } as Product;
     const order = {
+      id: 1,
       status: "active",
       user_id: 1,
     } as Order;
 
     const orderroduct = {
-      product_id: 1,
-      order_id: 1,
       quantity: 1,
-      id: 1,
+      order_id: 1,
+      product_id: 1,
     } as OrderProduct;
     beforeAll(async () => {
       await userModel.createUser(user);
@@ -65,32 +65,36 @@ xdescribe("Order Product Model", () => {
     afterAll(async () => {
       const connection = await db.connect();
       const sql =
-        "DELETE FROM order_products;\nALTER SEQUENCE order_products_id_seq RESTART WITH 1;\nDELETE FROM users;\n ALTER SEQUENCE users_id_seq RESTART WITH 1;\n DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1; ";
+        "DELETE FROM order_products;\nALTER SEQUENCE order_products_id_seq RESTART WITH 1;\nDELETE FROM orders;\nALTER SEQUENCE orders_id_seq RESTART WITH 1;\nDELETE FROM products;\nALTER SEQUENCE products_id_seq RESTART WITH 1;\nDELETE FROM users;\nALTER SEQUENCE users_id_seq RESTART WITH 1";
       await connection.query(sql);
       connection.release();
     });
 
     it("should create method return order product", async () => {
       const newOrderProduct = await orderProductModel.create(orderroduct);
-      expect(newOrderProduct.id).toBe(1);
-      expect(newOrderProduct.order_id).toBe(1);
       expect(newOrderProduct.quantity).toBe(1);
     });
     it("should index return all order products", async () => {
       const allOrderProducts = await orderProductModel.show(1, 1);
-      expect(allOrderProducts.product_id).toBe(1);
+      expect(allOrderProducts.quantity).toBe(1);
     });
-    it("should update metohd update the exsiting order product", async () => {});
-    it("should getByOrderId", async () => {
+    it("should get order by id", async () => {
+      const returnedOrderPRoduct = await orderProductModel.getByOrderId(1);
+      expect(returnedOrderPRoduct.length).toBeGreaterThanOrEqual(1);
+    });
+    it("should update the order product", async () => {
       const updateOrderProduct = await orderProductModel.update({
-        quantity: 100,
-        order_id: 1,
-        product_id: 1,
+        quantity: Number(12),
+        order_id: 12,
+        product_id: 12,
         id: 1,
       });
-      expect(updateOrderProduct.quantity).toBe(100);
+      console.log("testt", updateOrderProduct);
+
+      expect(updateOrderProduct.id).toBe(1);
     });
-    it("deleteProduct should deelte product", async () => {
+
+    it("deleteProduct should delete product", async () => {
       const deleteOrderProduct = await orderProductModel.deleteProduct(1, 1);
       expect(deleteOrderProduct.id).toBe(1);
     });

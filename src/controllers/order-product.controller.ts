@@ -40,9 +40,9 @@ export const deleted = async (
   next: NextFunction
 ) => {
   try {
-    const orderProModel = await orderProductModel.deleteProduct(
-      req.body.orderId,
-      req.body.productId
+       const orderProModel = await orderProductModel.deleteProduct(
+      Number(req.body["order_id"]),
+      Number(req.body["product_id"])
     );
     res.json({
       status: "Ok",
@@ -55,8 +55,8 @@ export const deleted = async (
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const orderProModel = await orderProductModel.show(
-      req.body.orderId as unknown as number,
-      req.body.productId as unknown as number
+      req.body["order_id"],
+      req.body["product_id"]
     );
     res.json({
       status: "Ok",
@@ -73,7 +73,7 @@ export const getByOrderId = async (
 ) => {
   try {
     const orderProModel = await orderProductModel.getByOrderId(
-      req.params.orderId as unknown as number
+      Number(req.params["id"])
     );
     res.json({
       status: "Ok",

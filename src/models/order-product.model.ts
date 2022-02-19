@@ -4,8 +4,6 @@ import db from "../database";
 class OrderProductModel {
   async create(OP: OrderProduct): Promise<OrderProduct> {
     try {
-  
-
       const connection = await db.connect();
       const sql =
         "INSERT INTO order_products (quantity,order_id,product_id) VALUES ($1,$2,$3) RETURNING *";
@@ -22,12 +20,11 @@ class OrderProductModel {
   }
 
   async update(OP: OrderProduct): Promise<OrderProduct> {
-    try {
+     try {
       const connection = await db.connect();
-      const sql =
-        "UPDATE order_products SET quantity=$1, order_id=$2, product_id=$3 WHERE id=($4)";
+      const sql = `UPDATE order_products SET quantity=$1, order_id=$2, product_id=$3) WHERE id=($4);`;
       const result = await connection.query(sql, [
-        OP.quantity,
+        Number(OP.quantity),
         OP.order_id,
         OP.product_id,
         OP.id,
@@ -61,8 +58,10 @@ class OrderProductModel {
     try {
       const connection = await db.connect();
       const sql =
-        "DELETE FROM order_products WHERE order_id=($1) AND product_id=($2)";
+        "DELETE FROM order_products WHERE order_id=($1) AND product_id=($2) RETURNING *;";
       const result = await connection.query(sql, [orderId, productId]);
+      console.log(sql);
+
       connection.release();
       return result.rows[0];
     } catch (error: any) {

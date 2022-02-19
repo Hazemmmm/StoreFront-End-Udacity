@@ -34,6 +34,7 @@ describe("Order Model Dfined", () => {
 
   describe("Order Model logic", () => {
     const user = {
+      id: 1,
       first_name: "Hazem_test_4",
       last_name: "Mohamed_test_4",
       email: "test4@gmail.com",
